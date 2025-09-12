@@ -11,10 +11,15 @@ def main():
     if pygame_init[1] != 0:
         print(f"Initialized {pygame_init[0]}/{pygame_init[0] + pygame_init[1]} pygame modules")
     clock_object = pygame.time.Clock()
-    dt = 0 # time delta since .tick() was last called
+    dt = 0 # initial time delta since .tick() was last called
+
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
-    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2) 
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+
+    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
 
 
     while True:
@@ -22,9 +27,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
         dt = clock_object.tick(60) / 1000
-        player.update(dt)
+        updatable.update(dt)
         screen.fill("black")
-        player.draw(screen)
+        for obj in drawable:
+            obj.draw(screen)
         pygame.display.flip()
 
 
