@@ -50,7 +50,7 @@ def main():
             for bullet in player_shots:
                 if bullet.detect_collision(asteroid_obj):
                     bullet.kill()
-                    asteroid_obj.kill()
+                    asteroid_obj.split()
         screen.fill("black")
         for obj in drawable:
             obj.draw(screen)
